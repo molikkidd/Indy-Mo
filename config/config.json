@@ -1,11 +1,11 @@
 {
   "development": {
-    "database": "express_authentication_development",
+    "database": "indy_mo_development",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "database": "express_authentication_test",
+    "database": "indy_mo__test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
@@ -20,4 +20,3 @@
     }
   }
 }
-

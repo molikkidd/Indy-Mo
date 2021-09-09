@@ -22,19 +22,21 @@ router.post("/login", passport.authenticate('local', {
 }));
 
 router.post("/signup", async (req, res) => {
-  const { email, name, password } = req.body; 
+  const { firstName, lastName, email, password, nmlsId } = req.body;
+  
+  console.log(req.body)
   try {
     const [user, created] = await User.findOrCreate({
       where: { email },
-      defaults: { name, password }
+      defaults: { firstName, lastName, password ,nmlsId }
     });
 
     if (created) {
       // if new user created then redirect back to /.. page
-      console.log(`-----${user.name} was created ------`);
+      console.log(`-----${user.firstName,user.lastName} was created ------`);
       const successObject = {
         successRedirect: '/',
-        successFlash: `Welcome ${user.name}. Account was created and logging in...`
+        successFlash: `Welcome ${user.firstName}. Account was created and logging in...`
       }
       passport.authenticate('local', successObject)(req, res);
     } else {

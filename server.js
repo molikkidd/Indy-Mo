@@ -44,7 +44,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', auth);
 
-
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -54,14 +53,18 @@ app.get('/profile', isLoggedIn, (req, res) => {
 });
 
 
-// base endpoint for users
+// base endpoint for auth of users
 app.get('/auth', (req,res) => {
   res.send('this is the auth page');
 });
 
-const PORT = process.env.PORT || 3000;
+
+app.get('/')
+const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
   console.log(`🎧 You're listening to the smooth sounds of port ${PORT} 🎧`);
 });
 
 module.exports = server;
+
+

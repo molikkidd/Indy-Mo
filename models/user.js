@@ -16,14 +16,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    name: {
-      type: DataTypes.STRING,
+    firstName: {
+      type: DataTypes.STRING, 
       validate: {
-       len: {
-        args: [1,99],
-        msg: 'Name must be between 1 and 99 characters'
+        len: {
+         args: [1,99],
+         msg: 'Name must be between 1 and 99 characters'
+        }
        }
+    },
+    lastName: {
+    type: DataTypes.STRING, 
+    validate: {
+      len: {
+       args: [1,99],
+       msg: 'Name must be between 1 and 99 characters'
       }
+     }
     },
     email: {
       type: DataTypes.STRING,
@@ -33,22 +42,32 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    password: {
+    password : {
       type: DataTypes.STRING,
       validate: {
-        len: {
-          args: [8,99],
-          msg: 'Password must be between 8 and 99 characters'
+        len : {
+          args: [8,12],
+          msg: 'The password needs to be between 8 and 12 characters'
         }
       }
-    }
-  }, {
+  },
+    nmlsId: {
+      type: DataTypes.INTEGER, 
+      validate: {
+        len: {
+         args: [7,7],
+         msg: 'Name must be be 7 digits long'
+        }
+       }
+    } 
+  },{
     sequelize,
     modelName: 'User',
   });
   // before you create the user hash the password
   // and put it in the database
 User.addHook('beforeCreate', (pendingUser) => {
+  console.log('the pending user:',pendingUser);
   // bcrypt will hash the password
   let hash = bcrypt.hashSync(pendingUser.password, 12); //hashes 12 times
   pendingUser.password = hash; //will go into the DB
@@ -69,4 +88,5 @@ User.prototype.toJSON = function() {
   return userData;
 }
   return User; // add functions above 
+
 };
