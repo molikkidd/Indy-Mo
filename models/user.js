@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.User.hasMany(models.Lead, {foreignKey: "userId"});
     }
   };
   User.init({
@@ -50,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'The password needs to be between 8 and 12 characters'
         }
       }
-  },
+    },
     nmlsId: {
       type: DataTypes.INTEGER, 
       validate: {

@@ -1,0 +1,40 @@
+<h2>Add new lead to the database</h2>
+
+<form method="POST" action="/profile/leads">
+    <div class="form-group">
+        <label for="firstName">First Name </label>
+        <input id="firstName"  class="form-control" type="text" name="firstName" placeholder="First Name ">
+
+    <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" class="form-control" type="text" name="lastName" placeholder="last Name ">
+    </div>
+
+    <div class="form-group"></div>
+    <label for="phoneNumber">Phone Number</label>
+    <input id="phoneNumber"  class="form-control" type="text" name="phoneNumber" placeholder="(111) 222-3333">
+    </div>
+
+    <div class="form-group"></div>
+    <label for="address">Address</label>
+    <input id="address"  class="form-control" type="text" name="address">
+    </div>
+
+    <div class="form-group"></div>
+    <label for="state">State</label>
+    <input id="state"  class="form-control" type="text" name="state" placeholder="Abbrivated">
+    </div>
+
+    <div class="form-group"></div>
+    <label for="zipCode">Zip Code</label>
+    <input id="zipCode" class="form-control" type="text" name="zipCode" placeholder="- - - - -">
+    </div>
+
+    <div class="form-group">
+        <label for="new-email">Email address</label>
+        <input type="email" class="form-control" id="new-email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
