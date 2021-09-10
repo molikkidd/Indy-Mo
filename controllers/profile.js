@@ -12,14 +12,25 @@ const profile =  (req,res) => {
 
 // show all the leads
 const allLeads = async (req,res) => {
- try {
-    const rawData = await Lead.findAll({});
-    const leadData = rawData.map(u => u.toJSON());
-    // res.render('leads', { firstName, lastName, phoneNumber, address, state, zip, email })
-    res.render('leads', {leadObj: leadData});
-} catch (error) {
-    console.log(error)
+    try {
+        const rawData = await Lead.findAll({});
+        const leadData = rawData.map(u => u.toJSON());
+        // res.render('leads', { firstName, lastName, phoneNumber, address, state, zip, email })
+        res.render('leads', {leadObj: leadData});
+    } catch (error) {
+        console.log(error)
+    }
 }
+// index of leads
+const leadsIdx = async (req,res) => {
+    try {
+        const rawData = await Lead.findAll({});
+        const leadData = rawData.map(u => u.toJSON());
+        let oneLeadIdx = req.params.idx;
+        res.render('leads/show', { leadObj: leadData[oneLeadIdx], leadId: oneLeadIdx});
+    } catch (error) {
+        console.log(error)
+    }
 }
 // new lead FORM
 const newLead = async (req,res) => {
@@ -57,21 +68,48 @@ const addNewLead = async (req,res) => {
       }
 
 }
-// update lead in db
+// edit lead from db
+const editLead = async (req,res) => {
+    const leadIdx = req.params.idx;
+    console.log(leadIdx);
+    try {
+        const rawData = await Lead.findAll({});
+        const leadData = rawData.map(u => u.toJSON());
+        res.render('leads/edit', {leadObj: leadData[leadIdx], leadId: leadIdx});
+    } catch (error) {
+        console.log(error)
+
+    }
+// res.send('you have reached the edit page');
+    // const numberOfRowsUpdate = await Lead.update({firstName, lastName, phoneNumber, address, state, zipCode },{
+    //     where: {email : email}
+    // });
+
+    // console.log(numberOfRowsUpdate);
+  
+}
+// add edited lead to db
+const addEditedLead = async (req,res) => {
+
+}
 
 // delete or deactivate from db
 
 // CREATE ROUTES FOR PROFILE
 router.get('/', isLoggedIn, profile);
-// router.get('/:idx', profileIdx);
+
 // CREATE ROUTES FOR LEADS
-router.get('/leads', isLoggedIn, allLeads)
+router.get('/leads', isLoggedIn, allLeads);
+// index of leads
+router.get('/leads/:idx',isLoggedIn, leadsIdx);
 // add new lead form
 router.get('/newLead', isLoggedIn, newLead);
-// add new lead to database
+// add new lead to db
 router.post('/leads', addNewLead);
-
-// CREATE LINK FOR LEAD AND NEW LEAD
+// edit FORM for lead
+router.get('/leads/edit/:idx', editLead);
+// add new edits to lead db
+router.post('/leads/:idx', addEditedLead)
 
 module.exports = router;
 
