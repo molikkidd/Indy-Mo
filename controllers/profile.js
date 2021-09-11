@@ -68,33 +68,34 @@ const addNewLead = async (req,res) => {
       }
 
 }
-// edit lead from db
+// edit lead FORM db
 const editLead = async (req,res) => {
     const leadIdx = req.params.idx;
-    console.log(leadIdx);
     try {
         const rawData = await Lead.findAll({});
         const leadData = rawData.map(u => u.toJSON());
         res.render('leads/edit', {leadObj: leadData[leadIdx], leadId: leadIdx});
     } catch (error) {
         console.log(error)
-
-    }
-// res.send('you have reached the edit page');
-    // const numberOfRowsUpdate = await Lead.update({firstName, lastName, phoneNumber, address, state, zipCode },{
-    //     where: {email : email}
-    // });
-
-    // console.log(numberOfRowsUpdate);
-  
+    }  
 }
 // add edited lead to db
 const addEditedLead = async (req,res) => {
-
+    const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
+    const id = req.params.idx;
+    try {
+        const numberOfRowsUpdate = await Lead.update({ firstName, lastName, phoneNumber, address, state, zipCode },{
+            where: {email : email}
+        });
+        console.log('you have successfully updated a lead');
+    } catch (error) {
+        console.log('you had an error updating a lead: --->', error)
+    }
 }
-
 // delete or deactivate from db
-
+// const deactivateLead = (req,res) => {
+//     res.send('you more than likely shouldnt delete data in the information age')
+// }
 // CREATE ROUTES FOR PROFILE
 router.get('/', isLoggedIn, profile);
 
@@ -109,7 +110,9 @@ router.post('/leads', addNewLead);
 // edit FORM for lead
 router.get('/leads/edit/:idx', editLead);
 // add new edits to lead db
-router.post('/leads/:idx', addEditedLead)
+router.post('/leads/:idx', addEditedLead);
+// delete lead from db
+// router.delete('/leads/delete/:idx', deactivateLead)
 
 module.exports = router;
 

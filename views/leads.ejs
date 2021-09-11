@@ -1,16 +1,46 @@
-<h2>The more convos the more chances you have of closing a deal</h2>
 
-<% for (let i = 1; i < leadObj.length; i++) { %>
+<nav class="nav justify-content-evenly" id="profileNav">
+  <li class="nav-item">
+    <a class="navbar-brand" href="/profile/leads">Leads</a>
+  </li>
+  <li class="nav-item">
+    <a class="navbar-brand" href="/profile/newLead">New Lead</a>
+  </li>
+  <form class="form-inline">
+    <input type="search" class="form-control mr-sm-2" placeholder="Search">
+  </form>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</nav>
+<h2>The more convos the more chances you have of closing a deal</h2>
+<div id="leadCard">
+  <% for (let i = 1; i < leadObj.length; i++) { %>
     <% let lead = leadObj[i]; %>
-    <li> <%= lead.firstName  %> </li>
-    <li> <%= lead.lastName  %> </li>
-    <li> <%= lead.address  %> </li>
-    <li> <%= lead.state  %> </li>
-    <li> <%= lead.zipCode  %> </li>
-    <li> <%= lead.email  %> </li>
-    <a href="/profile/leads/<%= i%>/">View Lead</a>   
+    <div class="row">
+    <div class="col-sm-6">
+    <div class="card"  style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"><%= lead.firstName  %>  <%= lead.lastName  %></h5>
+          <p class="card-text"> 
+            <li> <%= lead.address  %> </li>
+            <li> <%= lead.state  %> </li>
+            <li> <%= lead.zipCode  %> </li>
+            <li> <%= lead.email  %> </li>
+        </p>
+          <a href="/profile/leads/<%= i%>/" class="btn btn-primary">View Lead</a>
+        </div>
+      </div>
+    </div>
+  </div>
+   
  <% } %> 
 
+</div>
+
+
+
+
+ 
 
 
 

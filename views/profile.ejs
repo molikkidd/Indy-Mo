@@ -1,13 +1,45 @@
 
-<h3>Welcome to your PROFILE</h3>
+<!-- nav bar -->
+<nav class="nav justify-content-evenly" id="profileNav">
+  <li class="nav-item">
+    <a class="navbar-brand" href="/profile/leads">Leads</a>
+  </li>
+  <li class="nav-item">
+    <a class="navbar-brand" href="/profile/newLead">New Lead</a>
+  </li>
+  <form class="form-inline">
+    <input type="search" class="form-control mr-sm-2" placeholder="Search">
+  </form>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</nav>
 
-<li><a href="/profile/leads">Leads</a></li>
-<li><a href="/profile/newLead">New Leads</a></li>
+<p>userId: <%= id %></p>
 
-<p>Id: <%= id %></p>
-<p>First Name: <%= firstName %></p>
-<p>Last Name: <%= lastName %></p>
-<p>Email: <%= email %></p>
-<p>NMLS ID: <%= nmlsId %></p>
+
+<div class="profilePage">
+  <!-- user profile card -->
+  <div id="profileInfo">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="https://img.pixers.pics/download(s3:700/FO/11/19/71/98/7/700_FO111971987_37d25e6e36071f285f5a8c252f5e19a9.jpg):pattern(0.2381w,0.2381h):resize(700,700):compose(download(cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png),over,480,650):format(jpg)/wallpapers-cats-seamless-pattern.jpg.jpg" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"><%= firstName %> <%= lastName %></h5>
+        <h5 >NMLS ID: <%= nmlsId %></h5>
+        <h5 >Email: <%= email %></h5>
+        <p class="card-text">The user can add their bio here</p>
+        <a href="#" class="btn btn-primary">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mortgage API data -->
+  <div id="apiInfo">
+
+  </div>
+</div>
+
+
+
+
+
 
 

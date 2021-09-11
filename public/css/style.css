@@ -1,9 +1,96 @@
-nav ul li {
-  text-decoration: none;
-  display: inline-block;
-  margin-right: .3em;
+@font-face {
+  font-family: 'bulletto_killaregular';
+  src: url('bulletto_killa-webfont.woff2') format('woff2'),
+       url('bulletto_killa-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+/* HOMEPAGE STYLES */
+.indexContainer {
+  display: grid;
+  grid-template-columns: .5fr .5fr;
+  grid-template-areas:  "homeLeft homeRight"
 }
 
-h1 {
-  color: chartreuse;
+#homeLeft {
+  grid-area: homeLeft;
+  background-color: rgb(86, 194, 236);
+  text-align: center;
+  padding: 10%;
+  box-sizing: content-box;
+  /* height: 100%;  */
+
 }
+
+#homeRight {
+  grid-area: homeRight;
+  background-color: rgb(242, 239, 235);
+  background-image: url("https://images.hdqwalls.com/download/pattern-art-4k-j7-1366x768.jpg");
+  background-size: contain;
+  /* height: 100%; */
+
+}
+
+footer {
+  text-align: center;
+  background: black;
+  color: whitesmoke;
+  height: 25px;
+}
+
+/* LOGIN PAGE STYLE */
+.container {
+  background-color: cornflowerblue;
+  text-align: center;
+  padding: 30px;
+  margin: 20% auto;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow:7px 10px 10px #4b7180 ;
+
+}
+/* .btn {
+  margin-top: 20px;
+} */
+
+.btn:hover {
+  color: blue;
+  background-color: white;
+}
+/* PROFILE PAGE STYLE */
+#profileNav {
+  background-color: whitesmoke;
+  height: 45px;
+  padding: 4px;
+  box-sizing: content-box;
+  align-items: center;
+}
+
+.profilePage {
+  display: grid;
+  grid-template-columns: .5fr .5fr;
+  grid-template-areas:  "profileInfo apiInfo";
+  margin: 10px;
+}
+
+#profileInfo {
+  grid-area: profileInfo;
+  background-color: whitesmoke;
+  
+}
+
+#apiInfo {
+  grid-area: apiInfo;
+  background-color: wheat;
+}
+
+
+/* LEADS STYLE */
+#leadCard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 10px;
+  grid-gap: 10px;
+}
+/* ONE LEAD STYLE */
