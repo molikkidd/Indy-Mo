@@ -8,12 +8,12 @@
     <a class="navbar-brand" href="/profile/newLead">New Lead</a>
   </li>
   <form class="form-inline">
-    <input type="search" class="form-control mr-sm-2" placeholder="Search">
+    <input type="search" class="form-control mr-sm-2" placeholder="Search the Web">
   </form>
   <button type="submit" class="btn btn-primary">Submit</button>
 </nav>
 
-<p>userId: <%= id %></p>
+
 
 
 <div class="profilePage">
@@ -26,20 +26,28 @@
         <h5 >NMLS ID: <%= nmlsId %></h5>
         <h5 >Email: <%= email %></h5>
         <p class="card-text">The user can add their bio here</p>
+        <p>userId: <%= id %></p>
         <a href="#" class="btn btn-primary">Edit Profile</a>
       </div>
     </div>
   </div>
 
   <!-- Mortgage API data -->
-  <div id="apiInfo">
-
-  </div>
+  <!-- <div id="apiInfo"> -->
+    <div id="todoList">
+      <h2>Google Calendar API goes here</h2>
+    </div>
+    <div id="currentData">
+      <h2>Month to Month Rates</h2>
+      <iframe scrolling="no" style="border: 0; overflow: 0; width: 400px; height: 300px;" src="//www.mortgagecalculator.org/rates-widgets/mortgages/text-widget.php?advanced&amp;data=30yr_fr|15yr_fr|5yr_ar" frameborder="0"></iframe><br />
+    </div>
+    <div id="hotList">
+      <h2>Top 3 followups</h2>
+    </div>
+  <!-- </div> -->
 </div>
 
-
-
-
-
-
+<div id="profileFillerImg">
+  <img src="https://smartcdn.prod.postmedia.digital/driving/wp-content/uploads/2014/03/mclarenp1_dunsfoldtest_2014-037.jpg" class="img-fluid" alt="mclarenP1">
+</div>
 

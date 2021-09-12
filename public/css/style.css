@@ -69,22 +69,43 @@ footer {
 
 .profilePage {
   display: grid;
-  grid-template-columns: .5fr .5fr;
-  grid-template-areas:  "profileInfo apiInfo";
+  grid-template-columns: .3fr 1fr;
+  grid-template-rows: .4fr .3fr .3fr;
+  grid-template-areas: "profileInfo todoList"
+                        "profileInfo currentData" 
+                        "profileInfo hotList"; 
   margin: 10px;
 }
-
 #profileInfo {
   grid-area: profileInfo;
   background-color: whitesmoke;
-  
+}
+#todoList {
+  grid-area: todoList;
+  background-color: royalblue;
+  border-radius: 5px;
+  margin: 5px;
+ }
+#currentData {
+  grid-area: currentData;
+  background-color: tomato;
+  border-radius: 5px;
+  margin: 5px;
+
+} 
+#hotList {
+  grid-area: hotList;
+  background-color: yellow;
+  border-radius: 5px;
+  margin: 5px;
+
 }
 
-#apiInfo {
-  grid-area: apiInfo;
-  background-color: wheat;
+.img-fluid, #profileFillerImg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
 }
-
 
 /* LEADS STYLE */
 #leadCard {
@@ -93,4 +114,9 @@ footer {
   margin: 10px;
   grid-gap: 10px;
 }
+/* add new lead FORM */
+#addLeadForm {
+
+}
 /* ONE LEAD STYLE */
+

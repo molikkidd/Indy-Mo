@@ -7,11 +7,41 @@
     <a class="navbar-brand" href="/profile/newLead">New Lead</a>
   </li>
   <form class="form-inline">
-    <input type="search" class="form-control mr-sm-2" placeholder="Search">
+    <input type="search" class="form-control mr-sm-2" placeholder="Search through leads">
   </form>
   <button type="submit" class="btn btn-primary">Submit</button>
 </nav>
-<h2>The more convos the more chances you have of closing a deal</h2>
+<h2>Dont leave any meat left on the bone</h2>
+
+<!-- Tables -->
+<!-- <div id="leadTable">
+  <% for (let i = 1; i < leadObj.length; i++) { %>
+    <% let lead = leadObj[i]; %>
+    <table class="table table-bordered border-primary">
+      <thead>
+        <td>#</td>
+        <td>Name</td>
+        <td>Address</td>
+        <td>State</td>
+        <td>Zip Code</td>
+        <td>Email</td>
+      </thead>
+    
+      <tbody>
+        <tr class="table-active">
+          <td><%= i %>   %> </td>
+          <td><%= lead.firstName  %>  <%= lead.lastName  %></td>
+          <td><%= lead.address  %></td>
+          <td><%= lead.state  %></td>
+          <td><%= lead.zipCode  %></td>
+          <td><%= lead.email  %></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <% } %> 
+</div> -->
+<!-- Profile Cards -->
 <div id="leadCard">
   <% for (let i = 1; i < leadObj.length; i++) { %>
     <% let lead = leadObj[i]; %>
@@ -22,10 +52,10 @@
         <div class="card-body">
           <h5 class="card-title"><%= lead.firstName  %>  <%= lead.lastName  %></h5>
           <p class="card-text"> 
-            <li> <%= lead.address  %> </li>
-            <li> <%= lead.state  %> </li>
-            <li> <%= lead.zipCode  %> </li>
-            <li> <%= lead.email  %> </li>
+            <ul> Address: <%= lead.address  %> </ul>
+            <ul> State: <%= lead.state  %> </ul>
+            <ul> Zip Code: <%= lead.zipCode  %> </ul>
+            <ul> Email: <%= lead.email  %> </ul>
         </p>
           <a href="/profile/leads/<%= i%>/" class="btn btn-primary">View Lead</a>
         </div>
@@ -36,6 +66,7 @@
  <% } %> 
 
 </div>
+
 
 
 

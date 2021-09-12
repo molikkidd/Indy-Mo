@@ -9,6 +9,7 @@ const isLoggedIn = require('./middleware/isLoggedIn');
 
 const auth = require('./controllers/auth');
 const profile = require('./controllers/profile');
+const { default: axios } = require('axios');
 const SECRET_SESSION = process.env.SECRET_SESSION;
 
 
@@ -52,6 +53,46 @@ app.get('/', (req, res) => {
 app.get('/auth', (req,res) => {
   res.send('this is the auth page');
 });
+
+
+app.get('/altSignIn', (req,res) => {
+  res.redirect(`https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`);
+});
+
+
+// O-Auth-Log-in
+const fetch = require('node-fetch');
+
+let userToken;
+app.get('/oauth-callback', ({query: {code}},res) => {
+  const body = {
+    client_id: process.env.GITHUB_CLIENT_ID,
+    client_secret: process.env.GITHUB_SECRET,
+    code,
+  };
+  const opts = {headers: { accept: 'application/json'}};
+  axios.post('https://github.com/login/oauth/access_token', body, opts)
+       .then((_res) => _res.data.access_token)
+       .then((token) => {
+
+         console.log('My token', token);
+
+         let authHeader = {headers: { Authorization: token,
+                                      accept: 'application/vnd.github.v3+json' }};
+
+         axios.get(`https://api.github.com/users`, authHeader)
+         .then(user => {
+           console.log(user);
+         }).catch((err) => {
+           console.log(err)
+         })
+
+
+       })
+       .catch((error) => console.log('you have an oauth error --->:',error))
+});
+
+
 // profile route end point
 app.get('/profile', isLoggedIn, (req,res) => {
 res.send('this is the profile page');

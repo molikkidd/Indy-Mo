@@ -106,9 +106,9 @@ router.get('/leads/:idx',isLoggedIn, leadsIdx);
 // add new lead form
 router.get('/newLead', isLoggedIn, newLead);
 // add new lead to db
-router.post('/leads', addNewLead);
+router.post('/leads', isLoggedIn, addNewLead);
 // edit FORM for lead
-router.get('/leads/edit/:idx', editLead);
+router.get('/leads/edit/:idx', isLoggedIn, editLead);
 // add new edits to lead db
 router.post('/leads/:idx', addEditedLead);
 // delete lead from db
