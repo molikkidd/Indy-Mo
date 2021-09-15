@@ -3,20 +3,39 @@ const router = express.Router();
 const passport = require('../config/ppConfig');
 const { Lead, User } = require('../models');
 const isLoggedIn = require('../middleware/isLoggedIn');
+const fetch = require('node-fetch');
+
+
+
+const myAxios = async (endpoint) => {
+    let response  = await fetch(endpoint);
+    let data = await response.json();
+    return data;
+}
 
 // profile of user
 const profile =  (req,res) => {
     const { id, firstName, lastName, email, nmlsId } = req.user.get();
-    res.render('profile', { id, firstName, lastName, email, nmlsId });
+
+    myAxios(`https://finnhub.io/api/v1/news?category=technology&token=${process.env.FINNHUB_API_KEY}`)
+    .then(data => {
+        // console.log(data);
+        res.render('profile', { id, firstName, lastName, email, nmlsId, marketData: data});
+    }).catch(err => {
+        console.log('you have an error with finnhuB NEWS', err)
+    });
+
+
 };
+
 
 // show all the leads
 const allLeads = async (req,res) => {
     try {
         const rawData = await Lead.findAll({});
         const leadData = rawData.map(u => u.toJSON());
-        // res.render('leads', { firstName, lastName, phoneNumber, address, state, zip, email })
-        res.render('leads', {leadObj: leadData});
+     res.render('leadsThree', {leadObj: leadData});
+
     } catch (error) {
         console.log(error)
     }
@@ -24,14 +43,51 @@ const allLeads = async (req,res) => {
 // index of leads
 const leadsIdx = async (req,res) => {
     try {
-        const rawData = await Lead.findAll({});
-        const leadData = rawData.map(u => u.toJSON());
-        let oneLeadIdx = req.params.idx;
-        res.render('leads/show', { leadObj: leadData[oneLeadIdx], leadId: oneLeadIdx});
+        const rawData = await Lead.findByPk(req.params.idx);
+        const leadData = rawData.toJSON();
+        
+         let searchValue = req.query.leadSearch;
+        // console.log(leadData);
+        console.log('search value',searchValue);
+
+        leadData.forEach(lead => {
+            if(searchValue.toLowerCase() === lead.firstName.toLowerCase()) 
+             {
+                console.log('name of the lead',lead);
+                 res.redirect(`/leads/${lead.id}`)
+            }
+        })
+        res.render('leads/show', { leadObj: leadData});
     } catch (error) {
         console.log(error)
     }
 }
+// show one lead 
+const showLead = async (req,res) => {
+    try {
+        const rawData = await Lead.findAll({});
+        const leadData = rawData.map(u => u.toJSON());
+        // search for lead in DB by name then render show/lead
+        let searchValue = req.query.leadSearch;
+        // console.log(leadData);
+        console.log('search value',searchValue);
+    if (searchValue){
+        leadData.forEach(lead => {
+            if(searchValue.toLowerCase() === lead.firstName.toLowerCase()) 
+            {
+                console.log('name of the lead',lead);
+                res.redirect(`/leads/${lead.id}`)
+            }
+        })
+        res.render('leads/show', {leadObj: leadData})
+    }
+        
+
+    } catch (error) {
+        
+    }
+}  
+
 // new lead FORM
 const newLead = async (req,res) => {
     res.render('leads/new');
@@ -44,21 +100,21 @@ const addNewLead = async (req,res) => {
     console.log('new lead info',firstName, lastName, phoneNumber, address, state, zipCode, email);
     // find user by id
     try {
-        const foundUser = await Lead.findOrCreate({
-          where: { email },
-          defaults: { firstName, lastName, phoneNumber, address, state, zipCode }
+        const fetchUser = await User.findByPk(req.user.id);
+        const newLead = await fetchUser.createLead({ 
+            firstName, 
+            lastName, 
+            phoneNumber, 
+            address, 
+            state, 
+            zipCode,
+            email 
         });
-    
-        if (foundUser) {
-          // if new user created then redirect back to /.. page
-          console.log(`-----${User.email} is already in your database ------`);
-          res.flash('error', 'The provided email address already matches a lead in your database');
-          res.redirect('/profile/leads');
-        } else {
-            // add new lead to database
-          req.flash('success','You added a new lead');
-          res.redirect('/profile/leads');
-        }
+        console.log(newLead);
+        let lead = newLead.toJSON();
+        console.log(lead);
+        req.flash('success','You added a new lead');
+        res.redirect(`/profile/leads/${lead.id}`);
     
       } catch (error) {
         console.log('*********ERRROORR');
@@ -70,11 +126,12 @@ const addNewLead = async (req,res) => {
 }
 // edit lead FORM db
 const editLead = async (req,res) => {
-    const leadIdx = req.params.idx;
     try {
-        const rawData = await Lead.findAll({});
-        const leadData = rawData.map(u => u.toJSON());
-        res.render('leads/edit', {leadObj: leadData[leadIdx], leadId: leadIdx});
+        const leadIdx = req.params.idx;
+        const rawData = await Lead.findByPk(leadIdx);
+        const leadData = rawData.toJSON();
+
+        res.render('leads/edit', {leadObj: leadData});
     } catch (error) {
         console.log(error)
     }  
@@ -96,13 +153,15 @@ const addEditedLead = async (req,res) => {
 // const deactivateLead = (req,res) => {
 //     res.send('you more than likely shouldnt delete data in the information age')
 // }
+
 // CREATE ROUTES FOR PROFILE
 router.get('/', isLoggedIn, profile);
-
 // CREATE ROUTES FOR LEADS
 router.get('/leads', isLoggedIn, allLeads);
 // index of leads
 router.get('/leads/:idx',isLoggedIn, leadsIdx);
+// show one lead
+router.get('/leads', showLead)
 // add new lead form
 router.get('/newLead', isLoggedIn, newLead);
 // add new lead to db

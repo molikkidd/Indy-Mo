@@ -12,6 +12,7 @@ const profile = require('./controllers/profile');
 const { default: axios } = require('axios');
 const SECRET_SESSION = process.env.SECRET_SESSION;
 
+const socketServer = require('./socketServer');
 
 // connect to auth controller
 
@@ -97,7 +98,6 @@ app.get('/oauth-callback', ({query: {code}},res) => {
 app.get('/profile', isLoggedIn, (req,res) => {
 res.send('this is the profile page');
 });
-
 
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {

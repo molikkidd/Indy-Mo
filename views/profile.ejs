@@ -1,53 +1,185 @@
-
 <!-- nav bar -->
 <nav class="nav justify-content-evenly" id="profileNav">
-  <li class="nav-item">
-    <a class="navbar-brand" href="/profile/leads">Leads</a>
-  </li>
-  <li class="nav-item">
-    <a class="navbar-brand" href="/profile/newLead">New Lead</a>
-  </li>
+  <ul class="nav nav-pills nav-fill"></ul>
+    <li class="nav-item">
+      <a class="nav-link active" href="/profile/leads">Leads</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="/profile/newLead">New Lead</a>
+    </li>
+  </ul>
   <form class="form-inline">
     <input type="search" class="form-control mr-sm-2" placeholder="Search the Web">
   </form>
   <button type="submit" class="btn btn-primary">Submit</button>
 </nav>
 
-
-
-
-<div class="profilePage">
-  <!-- user profile card -->
-  <div id="profileInfo">
-    <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="https://img.pixers.pics/download(s3:700/FO/11/19/71/98/7/700_FO111971987_37d25e6e36071f285f5a8c252f5e19a9.jpg):pattern(0.2381w,0.2381h):resize(700,700):compose(download(cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png),over,480,650):format(jpg)/wallpapers-cats-seamless-pattern.jpg.jpg" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title"><%= firstName %> <%= lastName %></h5>
-        <h5 >NMLS ID: <%= nmlsId %></h5>
-        <h5 >Email: <%= email %></h5>
-        <p class="card-text">The user can add their bio here</p>
-        <p>userId: <%= id %></p>
-        <a href="#" class="btn btn-primary">Edit Profile</a>
+<!-- new grid system -->
+<div class="row m-1 h-100 w-90 themed-grid-col" >
+  <div class="col-md-4 themed-grid-col">
+    <!-- User Profile Card -->
+    <div id="profileInfo">
+      <div class="card" >
+        <img class="card-img-top" src="https://img.pixers.pics/download(s3:700/FO/11/19/71/98/7/700_FO111971987_37d25e6e36071f285f5a8c252f5e19a9.jpg):pattern(0.2381w,0.2381h):resize(700,700):compose(download(cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png),over,480,650):format(jpg)/wallpapers-cats-seamless-pattern.jpg.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"><%= firstName %> <%= lastName %></h5>
+          <p >NMLS ID: <%= nmlsId %></p>
+          <p >Email: <%= email %></p>
+          <!-- <p class="card-text">The user can add their bio here</p> -->
+          <a href="#" class="btn btn-primary">Edit Profile</a>
+        </div>
       </div>
     </div>
+
+<!-- add websocker instant messenger chat feature -->
+      <div class="col-md-4 w-100 mt-4">
+          <div id="moMessenger">
+            <!-- message box -->
+            <h5>M.O. Messenger</h5>
+          <pre id="messages"></pre>
+          <input  class="input-group-text" type="text" id="messageBox" placeholder="Type Message ch'ere"/>
+          <button id="send" class="btn btn-primary" title="Send Message" > SEND MESSAGE</button>
+          
+          </div>
+        </div>
   </div>
-
-  <!-- Mortgage API data -->
-  <!-- <div id="apiInfo"> -->
-    <div id="todoList">
-      <h2>Google Calendar API goes here</h2>
+  
+<!-- User Google Calendar and Stats -->
+  <div class="col-md-8 themed-grid-col">
+    <div class="pb-3">
+      <div id="todoList">
+        <h2>Daily Schedule</h2>
+        <iframe 
+        src="https://calendar.google.com/calendar/embed?src=71g91a7magigfpfl35hmt5ts9o%40group.calendar.google.com&ctz=America%2FLos_Angeles" style="border: 0" width="500" height="300" frameborder="0" scrolling="no">
+        </iframe>
+      </div>
     </div>
-    <div id="currentData">
-      <h2>Month to Month Rates</h2>
-      <iframe scrolling="no" style="border: 0; overflow: 0; width: 400px; height: 300px;" src="//www.mortgagecalculator.org/rates-widgets/mortgages/text-widget.php?advanced&amp;data=30yr_fr|15yr_fr|5yr_ar" frameborder="0"></iframe><br />
+    <div class="row">
+      <div class="col-md-12 themed-grid-col">
+          <div id="currentData">
+            <h2>Month to Month Rates</h2>
+            <iframe scrolling="no" style="border: 0; overflow: 0; width: 400px; height: 300px;" src="//www.mortgagecalculator.org/rates-widgets/mortgages/text-widget.php?advanced&amp;data=30yr_fr|15yr_fr|5yr_ar" frameborder="0">
+            </iframe>
+            <br/>
+          </div>
+      </div>
     </div>
-    <div id="hotList">
-      <h2>Top 3 followups</h2>
-    </div>
-  <!-- </div> -->
+  </div>      
 </div>
+<!-- spacing break -->
+<!-- <hr class="my-4"> -->
 
-<div id="profileFillerImg">
-  <img src="https://smartcdn.prod.postmedia.digital/driving/wp-content/uploads/2014/03/mclarenp1_dunsfoldtest_2014-037.jpg" class="img-fluid" alt="mclarenP1">
+<!-- Market news -->
+<div id="marketNews">
+  <h2>Financial News</h2>
+  <!-- Image carousel -->  
+  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <!-- item #1 -->
+      <div class="carousel-item active">
+        <!-- carousel image  -->
+        <img class="d-block w-100" src="<%=marketData[0].image%>" alt="First slide">
+        <rect width="100%" height="100%" fill="#777"/>
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1><%=marketData[0].headline%></h1>
+            <p><%=marketData[0].summary%></p>
+            <p><a class="btn btn-lg btn-primary" href="<%=marketData[0].url %> ">Read Full Article</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- item #2 -->
+      <div class="carousel-item">
+        <!-- carousel image  -->
+        <img class="d-block w-100" src="<%=marketData[1].image%>" alt="Second slide">
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1><%=marketData[1].headline%></h1>
+            <p><%=marketData[1].summary%></p>
+            <p><a class="btn btn-lg btn-primary" href="<%=marketData[1].url %>">Read Full Article</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- item #3 -->
+      <div class="carousel-item">
+        <!-- carousel image  -->
+        <img class="d-block w-100" src="<%=marketData[2].image%>" alt="Third slide">
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1><%=marketData[2].headline%></h1>
+            <p><%=marketData[2].summary%></p>
+            <p><a class="btn btn-lg btn-primary" href="<%=marketData[2].url %>">Read Full Article</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div id="profileFillerImg" >
+    <h1>Something to Dream About</h1>
+    <img src="https://smartcdn.prod.postmedia.digital/driving/wp-content/uploads/2014/03/mclarenp1_dunsfoldtest_2014-037.jpg" class="img-fluid" alt="mclarenP1">
+  </div>
+  
 </div>
+  
+  
 
+<script>
+  (function() {
+      const sendBtn = document.querySelector('#send');
+      const messages = document.querySelector('#messages');
+      const messageBox = document.querySelector('#messageBox');
+      let ws;
+
+    function showMessages(message) {
+      messages.textContent += `\n\n${message}`;
+      messages.scrollTop = messages.scrollHeight;
+      messageBox.value = '';
+  }
+
+  function init() {
+      if(ws) {
+          ws.onerror = ws.onopen = ws.onclose = null;
+          ws.close();
+      }
+      ws = new WebSocket('ws://localhost:8001');
+      ws.onopen = () => {
+          console.log('connection opened!');
+      }
+      // send message to the screen
+      ws.onmessage = ({data}) => { 
+         showMessages(data)
+      };
+      ws.onclose = function() {
+      ws = null;
+      }   
+   }
+
+   sendBtn.onclick = function() {
+       if(!ws) {
+           showMessages("No web socket CONNECTION :");
+           return;
+       }
+       ws.send(messageBox.value);
+       showMessages(messageBox.value);
+   }
+
+   init();
+  })();
+
+</script>
+
+
+    

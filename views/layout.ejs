@@ -1,52 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-100" lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>IndyMo</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">  
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">    
+
   </head>
-  <body>
+
+  <body class="h-100">
     <%- include('partials/alerts') %>
-    <header>
-      <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#"><i class="fas fa-laptop-house"></i>IndyMo</a>
-          </div>
-
-          <ul class="nav navbar-nav">
-            <li><a class="navbar-brand" href="/">Home</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
+    <header class="navbar navbar-dark sticky-top bg-black flex-md-nowrap justify-content-space-evenly p-0 shadow ">
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><i class="fas fa-laptop-house"></i> IndyMo</a>
+      <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="nav navbar-nav">
+        <li><a class="navbar-brand" href="#">Home</a></li>
+      </ul>
+      <div class="navbar-nav navbar-right">
+        <div class="nav-item text-nowrap">
+          
             <% if (!currentUser) {%>
             <li><a class="navbar-brand" href="/auth/signup"><i class="fa fa-user"></i> Sign Up</a></li>
             <li><a class="navbar-brand" href="/auth/login"><i class="fa fa-sign-in-alt"></i>Login</a></li>
-           
-            <% } else { %>
-            <li><a class="navbar-brand" href="/auth/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
-            <li><a class="navbar-brand" href="/profile"><i class="far fa-id-badge"></i>Profile</a></li>
-            <% } %>
             
-          </ul>
-
+            <% } else { %>
+            <a class="navbar-brand" href="/auth/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            <% } %>
         </div>
-      </nav> 
+      </div>
     </header>
+
     
     <%- body %>
-    
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-
-  <div class="fixed-bottom">
-    <footer >
-      <p>MZK PRODUCTION</p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <footer class="mt-auto text-white-50">
+      <p>MZK PRODUCTION<a href="" class="text-white"> assisted by Bootstrap</p>
     </footer>
-  </div>
-  
-  
   </body>
 </html>
