@@ -20,7 +20,6 @@ footer {
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #38c5f0;
-  ;
   height: 100%;
     
 }
@@ -64,7 +63,6 @@ footer {
     font-size: 3.5rem;
   }
 }
-
 /* PROFILE PAGE STYLE */
 .themed-grid-col {
   padding-top: .75rem;
@@ -73,9 +71,7 @@ footer {
   border: 1px solid #38c5f0;
   border-radius: 10px;
   text-align: center;
-  
 }
-
 /* older style */
 #profileNav {
   background-color: whitesmoke;
@@ -156,35 +152,16 @@ h2 {
 }
 
 /* add new lead FORM */
-#editLead {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background-color: #38c5f0;
-  height:100%
-}
-
-#editDiv {
+#addNewLead, #signUp {
   background-color:#28a4ca;
   color: azure;
   border-radius: 5px;
-  margin: 20%;
   text-align: center;
-  height: 600px;
   box-shadow: 4px 11px 17px cornflowerblue;
   padding: 20px;
+  width: 500px;
 }
 
-#addNewLead  {
-  background-color:#28a4ca;
-  color: azure;
-  border-radius: 5px;
-  margin: 20%;
-  text-align: center;
-  box-shadow: 4px 11px 17px cornflowerblue;
-  padding: 20px;
-}
 /* ONE LEAD STYLE */
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */

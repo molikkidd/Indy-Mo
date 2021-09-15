@@ -5,8 +5,6 @@ const { Lead, User } = require('../models');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const fetch = require('node-fetch');
 
-
-
 const myAxios = async (endpoint) => {
     let response  = await fetch(endpoint);
     let data = await response.json();
@@ -24,10 +22,7 @@ const profile =  (req,res) => {
     }).catch(err => {
         console.log('you have an error with finnhuB NEWS', err)
     });
-
-
 };
-
 
 // show all the leads
 const allLeads = async (req,res) => {
@@ -46,17 +41,6 @@ const leadsIdx = async (req,res) => {
         const rawData = await Lead.findByPk(req.params.idx);
         const leadData = rawData.toJSON();
         
-         let searchValue = req.query.leadSearch;
-        // console.log(leadData);
-        console.log('search value',searchValue);
-
-        leadData.forEach(lead => {
-            if(searchValue.toLowerCase() === lead.firstName.toLowerCase()) 
-             {
-                console.log('name of the lead',lead);
-                 res.redirect(`/leads/${lead.id}`)
-            }
-        })
         res.render('leads/show', { leadObj: leadData});
     } catch (error) {
         console.log(error)
@@ -68,23 +52,22 @@ const showLead = async (req,res) => {
         const rawData = await Lead.findAll({});
         const leadData = rawData.map(u => u.toJSON());
         // search for lead in DB by name then render show/lead
-        let searchValue = req.query.leadSearch;
+        let searchValue = req.body.showLead;
         // console.log(leadData);
         console.log('search value',searchValue);
-    if (searchValue){
-        leadData.forEach(lead => {
-            if(searchValue.toLowerCase() === lead.firstName.toLowerCase()) 
-            {
-                console.log('name of the lead',lead);
-                res.redirect(`/leads/${lead.id}`)
+        if(searchValue) {
+            for (let i = 0; i < leadData.length; i++) {
+                const lead = leadData[i];
+                if(searchValue.toLowerCase() === lead.firstName.toLowerCase()) 
+                {
+                    console.log('name of the lead',lead);
+                    res.redirect(`/profile/leads/${lead.id}`)
+                } 
             }
-        })
-        res.render('leads/show', {leadObj: leadData})
-    }
-        
-
+        }
+      
     } catch (error) {
-        
+        console.log('you have an error on ShowLead:',error)
     }
 }  
 
@@ -140,19 +123,33 @@ const editLead = async (req,res) => {
 const addEditedLead = async (req,res) => {
     const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
     const id = req.params.idx;
+    console.log("first name:", firstName);
     try {
         const numberOfRowsUpdate = await Lead.update({ firstName, lastName, phoneNumber, address, state, zipCode },{
             where: {email : email}
         });
+        res.redirect(`/profile/leads/${id}`);
         console.log('you have successfully updated a lead');
     } catch (error) {
         console.log('you had an error updating a lead: --->', error)
     }
 }
 // delete or deactivate from db
-// const deactivateLead = (req,res) => {
-//     res.send('you more than likely shouldnt delete data in the information age')
-// }
+const deactivateLead = async (req,res) => {
+    const leadId = req.params.idx
+    console.log(leadId);
+
+    try {
+        let deleteUserData = await Lead.destroy({
+            where: {id: leadId}
+        });  
+        res.redirect('/profile/leads');
+    //   returns a number of how many users where deleted
+        console.log(deleteUserData)
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // CREATE ROUTES FOR PROFILE
 router.get('/', isLoggedIn, profile);
@@ -161,7 +158,7 @@ router.get('/leads', isLoggedIn, allLeads);
 // index of leads
 router.get('/leads/:idx',isLoggedIn, leadsIdx);
 // show one lead
-router.get('/leads', showLead)
+router.post('/leads/showLead', showLead);
 // add new lead form
 router.get('/newLead', isLoggedIn, newLead);
 // add new lead to db
@@ -171,7 +168,7 @@ router.get('/leads/edit/:idx', isLoggedIn, editLead);
 // add new edits to lead db
 router.post('/leads/:idx', addEditedLead);
 // delete lead from db
-// router.delete('/leads/delete/:idx', deactivateLead)
+router.get('/leads/delete/:idx', deactivateLead);
 
 module.exports = router;
 

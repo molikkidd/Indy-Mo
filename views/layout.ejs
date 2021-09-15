@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100" lang="en">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,14 +20,14 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <ul class="nav navbar-nav">
-        <li><a class="navbar-brand" href="#">Home</a></li>
+        <li><a class="navbar-brand" href="/">Home</a></li>
       </ul>
       <div class="navbar-nav navbar-right">
         <div class="nav-item text-nowrap">
           
             <% if (!currentUser) {%>
-            <li><a class="navbar-brand" href="/auth/signup"><i class="fa fa-user"></i> Sign Up</a></li>
-            <li><a class="navbar-brand" href="/auth/login"><i class="fa fa-sign-in-alt"></i>Login</a></li>
+            <li><a class="nav nav-link" href="/auth/signup"><i class="fa fa-user"></i> Sign Up</a></li>
+            <li><a class="nav navbar-brand" href="/auth/login"><i class="fa fa-sign-in-alt"></i>Login</a></li>
             
             <% } else { %>
             <a class="navbar-brand" href="/auth/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>

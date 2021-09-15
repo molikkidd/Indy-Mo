@@ -3,10 +3,10 @@
   <!-- search thru leads -->
   <% for (let i = 1; i < leadObj.length; i++) { %>
     <% let lead = leadObj[i]; %>
-  <form class="col-6 m-2" method="GET" action="/profile/leads/showLead" >
     <% } %> 
 
-    <input type="search" name="leadSearch" class="form-control" placeholder="Search Leads" aria-label="Search">
+  <form class="col-6 m-2" method="POST" action="/profile/leads/showLead" >
+    <input type="search" name="showLead" class="form-control" placeholder="Search Leads" aria-label="Search">
     <button class="btn btn-outline-light btn-dark m-2" type="submit"> Submit</button>
 
   </form>
@@ -25,9 +25,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/profile/newLead">
                 <span data-feather="shopping-cart"></span>
-                Products
+                New Application
               </a>
             </li>
             <li class="nav-item">
