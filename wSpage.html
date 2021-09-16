@@ -11,7 +11,7 @@ install ws. on server.js then add logic
         const sendBtn = document.querySelector('#send');
         const messages = document.querySelector('#messages');
         const messageBox = document.querySelector('#messageBox');
-        console.log('this is the send button',sendBtn)
+        // console.log('this is the send button',sendBtn)
         let ws;
 
       function showMessages(message) {
@@ -26,11 +26,11 @@ install ws. on server.js then add logic
             ws.close();
         }
 
-        ws = new WebSocket('ws://localhost:8008');
+        ws = new WebSocket('ws://localhost:8001');
         ws.onopen = () => {
             console.log('connection opened!');
         }
-        ws.onmessage = ({data}) => showMessages(JSON.parse(data));
+        ws.onmessage = ({data}) => showMessages(data);
         ws.onclose = function() {
         ws = null;
         }   

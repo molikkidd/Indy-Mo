@@ -123,10 +123,10 @@ const editLead = async (req,res) => {
 const addEditedLead = async (req,res) => {
     const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
     const id = req.params.idx;
-    console.log("first name:", firstName);
+    console.log("THE PHONE NUMBER:", phoneNumber);
     try {
         const numberOfRowsUpdate = await Lead.update({ firstName, lastName, phoneNumber, address, state, zipCode },{
-            where: {email : email}
+            where: {id : id}
         });
         res.redirect(`/profile/leads/${id}`);
         console.log('you have successfully updated a lead');
