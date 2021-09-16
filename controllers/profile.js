@@ -5,6 +5,7 @@ const { Lead, User } = require('../models');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const fetch = require('node-fetch');
 
+// connect to api W/AXIOS
 const myAxios = async (endpoint) => {
     let response  = await fetch(endpoint);
     let data = await response.json();
