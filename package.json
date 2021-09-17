@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "start": "npm start",
+    "start": "node server.js",
     "nodemon": "nodemon"
   },
   "repository": {
