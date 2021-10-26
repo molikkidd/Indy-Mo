@@ -113,8 +113,9 @@ npm install axios dotenv express-ejs-layout express ejs pg sequelize sequelize-c
 - [sequelize](https://github.com/sequelize/sequelize):
   Is a Object Relational Mapper (ORM), that allows your application to interact with the postgres database
 - [sequelize-cli](https://github.com/sequelize/cli):
+  The user interface commands for sequelize
 - [ws](https://github.com/websockets/ws):
-
+  WS is a simple to use, blazing fast, and thoroughly tested WebSocket client and server implementation
 `4` Make a commit
 
 ```text
@@ -784,16 +785,41 @@ app.get('/profile', isLoggedIn, (req, res) => {
 });
 ```
 
-`2` Add user `id`, `name`, `email` to the **`profile.ejs`**
+`2` Add user `email`, `firstName`, `lastName`, `nmlsId` to the **`profile.ejs`**
 
 ```ejs
-<h2>Profile Page</h2>
+<!-- nav bar -->
+<nav class="nav justify-content-evenly" id="profileNav">
+  <ul class="nav nav-pills nav-fill"></ul>
+    <li class="nav-item">
+      <a class="nav-link active" href="/profile/leads">Leads</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="/profile/newLead">New Lead</a>
+    </li>
+  </ul>
+  <form class="form-inline">
+    <input type="search" class="form-control mr-sm-2" placeholder="Search the Web">
+  </form>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</nav>
 
-<h3>Welcome to your PROFILE</h3>
-
-<p>Id: <%= id %></p>
-<p>Name: <%= name %></p>
-<p>Email: <%= email %></p>
+<!-- new grid system -->
+<div class="row m-1 h-100 w-90 themed-grid-col" >
+  <div class="col-md-4 themed-grid-col">
+    <!-- User Profile Card -->
+    <div id="profileInfo">
+      <div class="card" >
+        <img class="card-img-top" src="https://img.pixers.pics/download(s3:700/FO/11/19/71/98/7/700_FO111971987_37d25e6e36071f285f5a8c252f5e19a9.jpg):pattern(0.2381w,0.2381h):resize(700,700):compose(download(cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png),over,480,650):format(jpg)/wallpapers-cats-seamless-pattern.jpg.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"><%= firstName %> <%= lastName %></h5>
+          <p >NMLS ID: <%= nmlsId %></p>
+          <p >Email: <%= email %></p>
+          <!-- <p class="card-text">The user can add their bio here</p> -->
+          <a href="#" class="btn btn-primary">Edit Profile</a>
+        </div>
+      </div>
+    </div>
 ```
 
 `2` Run **`mocha`** to see how many tests passed
