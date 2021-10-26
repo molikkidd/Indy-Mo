@@ -1210,9 +1210,7 @@ server.listen(port, function() {
 module.exports = WebSocket;
 ```
 
-## `20` Delete/Deactivate Lead
-
-## `20` Delete/Deactivate Lead
+## `22` Delete/Deactivate Lead
 
 ```js
 // delete or deactivate from db
@@ -1231,7 +1229,7 @@ const deactivateLead = async (req,res) => {
 }
 ```
 
-## `21` Start App and Debug
+## `23` Start App and Debug
 
 `1` Start up server and test app
 
