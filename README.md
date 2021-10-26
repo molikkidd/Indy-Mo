@@ -862,8 +862,6 @@ const showLead = async (req,res) => {
         const leadData = rawData.map(u => u.toJSON());
         // search for lead in DB by name then render show/lead
         let searchValue = req.body.showLead;
-        // console.log(leadData);
-        console.log('search value',searchValue);
         if(searchValue) {
             for (let i = 0; i < leadData.length; i++) {
                 const lead = leadData[i];
@@ -935,8 +933,6 @@ const newLead = async (req,res) => {
 const addNewLead = async (req,res) => {
     // grab data from the form
     const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
-
-    console.log('new lead info',firstName, lastName, phoneNumber, address, state, zipCode, email);
     // find user by id
     try {
         const fetchUser = await User.findByPk(req.user.id);
@@ -965,7 +961,7 @@ const addNewLead = async (req,res) => {
 }
 ```
 
-## `18` Edit Lead
+## `19` Edit Lead
 Create the edit form for the lead and add ejs values for input fields.
 
 ```html
@@ -1038,10 +1034,11 @@ Add logic to connect to the database and update the new data.
 // edit lead FORM db
 const editLead = async (req,res) => {
     try {
+      // search for lead in db by idx 
         const leadIdx = req.params.idx;
         const rawData = await Lead.findByPk(leadIdx);
         const leadData = rawData.toJSON();
-
+        // send current lead data to edit form
         res.render('leads/edit', {leadObj: leadData});
     } catch (error) {
         console.log(error)
@@ -1049,9 +1046,10 @@ const editLead = async (req,res) => {
 }
 // add edited lead to db
 const addEditedLead = async (req,res) => {
+    // import values from edit form 
     const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
     const id = req.params.idx;
-    console.log("THE PHONE NUMBER:", phoneNumber);
+    // update the necessary rows with new data 
     try {
         const numberOfRowsUpdate = await Lead.update({ firstName, lastName, phoneNumber, address, state, zipCode },{
             where: {id : id}
@@ -1064,14 +1062,12 @@ const addEditedLead = async (req,res) => {
 }
 ```
 
-## `18` Delete/Deactivate Lead
+## `20` Delete/Deactivate Lead
 
 ```js
 // delete or deactivate from db
 const deactivateLead = async (req,res) => {
     const leadId = req.params.idx
-    console.log(leadId);
-
     try {
         let deleteUserData = await Lead.destroy({
             where: {id: leadId}
@@ -1085,12 +1081,14 @@ const deactivateLead = async (req,res) => {
 }
 ```
 
-## `19` Start App and Debug
+## `21` Start App and Debug
 
 `1` Start up server and test app
 
 ```text
-npm start
+npm start 
+or 
+nodemon
 ```
 
 `2` Complete any debugging that needs to happen.
