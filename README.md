@@ -1,6 +1,6 @@
-# `Express Authentication`
+# `Indy Mo`
 
-Express authentication template using Passport + Flash messages + custom middleware
+It is an Express authentication based application using Passport + Flash messages + custom middleware
 
 ## What it includes
 
@@ -17,13 +17,31 @@ Express authentication template using Passport + Flash messages + custom middlew
 | Column Name | Data Type | Notes |
 | --------------- | ------------- | ------------------------------ |
 | id | Integer | Serial Primary Key, Auto-generated |
-| name | String | Must be provided |
+| firstName | String | Must be provided |
+| lastName | String | Must be provided |
 | email | String | Must be unique / used for login |
+| nmlsId | String | Must be unique |
 | password | String | Stored as a hash |
 | createdAt | Date | Auto-generated |
 | updatedAt | Date | Auto-generated |
 
-### Default Routes
+### Lead Model
+
+| Column Name | Data Type | Notes |
+| --------------- | ------------- | ------------------------------ |
+| id | Integer | Serial Primary Key, Auto-generated |
+| firstName | String | Must be provided |
+| lastName | String | Must be provided |
+| phoneNumber | String | Must be provided |
+| address | String | Must be provided |
+| state | String | Must be provided |
+| zipCode | String | Must be provided |
+| email | String | Must be unique / used for login |
+| userId | String | inherited from user |
+| createdAt | Date | Auto-generated |
+| updatedAt | Date | Auto-generated |
+
+### Auth Routes
 
 | Method | Path | Location | Purpose |
 | ------ | ---------------- | -------------- | ------------------- |
@@ -35,7 +53,21 @@ Express authentication template using Passport + Flash messages + custom middlew
 | GET | /auth/logout | auth.js | Removes session info |
 | GET | /profile | server.js | Regular User Profile |
 
+### Profile and Leads Routes
+
+| Method | Path | Location | Purpose |
+| ------ | ---------------- | -------------- | ------------------- |
+| GET | /leads | profile.js | show all leads |
+| GET | /leads/:idx | profile.js | show one lead |
+| POST| /leads/showLead | profile.js | add new lead form |
+| GET | /newLead | profile.js | add new lead to db |
+| POST | /leads | profile.js | edit FORM for lead |
+| GET | /leads//edit/:idx | profile.js | add new edits to lead db |
+| POST | /leads/:idx | profile.js | delete lead from db |
+| GET | /leads/delete/:idx | profile.js | delete lead from db |
+
 ## `1` Fork & Clone Project & Install Dependencies
+
 `1` The first thing that we are going to do is `fork` and `clone`
 
 `2` Now we are going to install the current dependencies that are listed inside of `package.json`
@@ -47,14 +79,41 @@ npm install
 
 ```text
 npm install bcrypt connect-flash passport passport-local express-session method-override
+and 
+npm install axios dotenv express-ejs-layout express ejs pg sequelize sequelize-cli ws
+
 ```
--  [bcrypt](https://www.npmjs.com/package/bcrypt): A library to help you hash passwords. ( [wikipedia](https://en.wikipedia.org/wiki/Bcrypt) ) 
-    - Blowfish has a 64-bit block size and a variable key length from 32 bits up to 448 bits.
-- [connect-flash](https://github.com/jaredhanson/connect-flash): The flash is an area of the session used for storing messages that will be used to to display to the user. Flash is typically used with redirects.
-- [passport](https://www.passportjs.org/docs/): Passport is authentication middleware for Node.js. It is designed to do one thing authenticate requests. There are over 500+ strategies used to authenticate a user; however, we will be using one - *passport-local* Passport is authentication middleware for Node. It is designed to serve a singular purpose: authenticate requests
-- [passport-local](http://www.passportjs.org/packages/passport-local/): The local authentication strategy authenticates users using a username and password. The strategy requires a verify callback, which accepts these credentials and calls done providing a user. [passport-local](http://www.passportjs.org/packages/passport-local/)
-- [express-session](https://github.com/expressjs/session): Create a session middleware with given *options*.
-- [method-override](https://github.com/expressjs/method-override): Lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.
+
+- [axios](https://github.com/axios/axios):
+  Promise based HTTP client for the browser and node.js 
+-  [bcrypt](https://www.npmjs.com/package/bcrypt): 
+  A library to help you hash passwords. ([wikipedia](https://en.wikipedia.org/wiki/Bcrypt)) 
+  Blowfish has a 64-bit block size and a variable key length from 32 bits up to 448 bits.
+- [connect-flash](https://github.com/jaredhanson/connect-flash): 
+  The flash is an area of the session used for storing messages that will be used to to display to the user. Flash is typically used with redirects.
+- [dotenv](https://github.com/motdotla/dotenv):
+  Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.
+- [ejs](https://github.com/mde/ejs):
+  Static caching of intermediate JavaScript, Static caching of templates
+  Complies with the Express view system
+- [express](https://github.com/expressjs/express):
+  ExpressJS is a web application framework that provides you with a simple API to build websites, web apps and back ends.
+- [express-ejs-layouts](https://github.com/Soarez/express-ejs-layouts):
+  Creates a template structure which allows us to easily render files without duplicate code.
+- [express-session](https://github.com/expressjs/session): 
+  Create a session middleware with given *options*.method-override):
+- [method-override](https://github.com/expressjs/method-override): 
+  Lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.
+- [passport](https://www.passportjs.org/docs/): 
+  Passport is authentication middleware for Node.js. It is designed to do one thing authenticate requests. There are over 500+ strategies used to authenticate a user; however, we will be using one - *passport-local* Passport is authentication middleware for Node. It is designed to serve a singular purpose: authenticate requests
+- [passport-local](http://www.passportjs.org/packages/passport-local/):  
+  The local authentication strategy authenticates users using a username and password. The strategy requires a verify callback, which accepts these credentials and calls done providing a user.  
+- [pg](https://github.com/brianc/node-postgres):
+  Is a SQL based database, following the model/ table model
+- [sequelize](https://github.com/sequelize/sequelize):
+  Is a Object Relational Mapper (ORM), that allows your application to interact with the postgres database
+- [sequelize-cli](https://github.com/sequelize/cli):
+- [ws](https://github.com/websockets/ws):
 
 `4` Make a commit
 
@@ -98,23 +157,31 @@ git commit -m "Install dependencies for project"
 sequelize db:create
 ```
 
-
-
 ## `3` Analyze File Structure
 
 ```text
 ├── config
 │   └── config.json
+│   └── ppConfig.json
 ├── controllers
 │   └── auth.js
+│   └── profile.js
+├── middleware
+│   └── index.js
+├── migrations
+│   └── index.js
 ├── models
 │   └── index.js
 ├── node_modules
 │   └── ...
 ├── public
 │   └── assets
+|       └── .keep 
 │   └── css
+│       └── dashboard.css
 │       └── style.css
+├── seeders
+│   └── auth.test.js
 ├── test
 │   └── auth.test.js
 │   └── index.test.js
@@ -124,17 +191,27 @@ sequelize db:create
 │   └── auth
 │       └── login.ejs
 │       └── signup.ejs
+│   └── leads
+|       └── edit.ejs
+│       └── new.ejs
+│       └── show.ejs
+│   └── partials
+|       └── alert.ejs
 │   └── index.ejs
 │   └── layout.ejs
+│   └── leadsThree.ejs
 │   └── profile.ejs
+├── .env
 ├── .gitignore
 ├── package-lock.json
 ├── package.json
 ├── README.md
 ├── server.js
+├── socketServer.js
+├── wSpage.html
 ```
 
-- `config.json`: Where you need to configure your project to interact with your postgres database.
+- `config.json`: Where you need to configure your project to interact with your postgres database and passport localStrategy.
 - `controllers`: The folder where all of your controllers ( routes ) will go to control the logic of your app.
 - `models`: The folder where all the models will be stored that will interact with the database.
 - `node_modules`: The folder that is generated by **npm** that stores the source code for all dependencies installed.
@@ -152,7 +229,9 @@ sequelize db:create
 `1` Add `User` model
 
 ```text
-sequelize model:create --name User --attributes name:string,email:string,password:string
+sequelize model:create --name User --attributes firstName:string,lastName:string,email:string,password:string,nmlsId:integer
+
+sequelize model:create --name User --attributes firstName:string,lastName:string, phoneNumber:string,address:string,state:string, zipCode:integer,email:string,userId:string,nmlsId:integer
 ```
 
 `2` Add **validations** for `User` model
@@ -174,17 +253,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.User.hasMany(models.Lead, {foreignKey: "userId"});
     }
   };
   User.init({
-    name: {
-      type: DataTypes.STRING,
+    firstName: {
+      type: DataTypes.STRING, 
       validate: {
-       len: {
-        args: [1,99],
-        msg: 'Name must be between 1 and 99 characters'
+        len: {
+         args: [1,99],
+         msg: 'Name must be between 1 and 99 characters'
+        }
        }
+    },
+    lastName: {
+    type: DataTypes.STRING, 
+    validate: {
+      len: {
+       args: [1,99],
+       msg: 'Name must be between 1 and 99 characters'
       }
+     }
     },
     email: {
       type: DataTypes.STRING,
@@ -194,16 +283,25 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    password: {
+    password : {
       type: DataTypes.STRING,
       validate: {
-        len: {
-          args: [8,99],
-          msg: 'Password must be between 8 and 99 characters'
+        len : {
+          args: [8,12],
+          msg: 'The password needs to be between 8 and 12 characters'
         }
       }
-    }
-  }, {
+    },
+    nmlsId: {
+      type: DataTypes.INTEGER, 
+      validate: {
+        len: {
+         args: [7,7],
+         msg: 'Name must be be 7 digits long'
+        }
+       }
+    } 
+  },{
     sequelize,
     modelName: 'User',
   });
@@ -211,6 +309,8 @@ module.exports = (sequelize, DataTypes) => {
   return User; // add functions above 
 };
 ```
+
+"repeat same steps for lead model"
 
 `3` Make a *commit* message
 ```text
@@ -256,7 +356,6 @@ User.prototype.validPassword = function(typedPassword) {
 User.prototype.toJSON = function() {
     let userData = this.get(); 
     delete userData.password; // it doesn't delete password from database, only removes it. 
-    
     return userData;
 }
 ```
@@ -705,7 +804,288 @@ git add .
 git commit -m "profile: add route and send data to view page"
 ```
 
-## `16` Start App and Debug
+## `16` Create Profile.js
+Create a profile.js file to interact with the user model. The purpose of this file is to create the CRUD routes for the leads. Import the necessary dependencies and create the logic for the routes.
+
+```js
+const express = require('express');
+const router = express.Router();
+const passport = require('../config/ppConfig');
+const { Lead, User } = require('../models');
+const isLoggedIn = require('../middleware/isLoggedIn');
+const fetch = require('node-fetch');
+
+// profile of user
+const profile =  (req,res) => {
+    const { id, firstName, lastName, email, nmlsId } = req.user.get();
+
+    myAxios(`https://finnhub.io/api/v1/news?category=technology&token=${process.env.FINNHUB_API_KEY}`)
+    .then(data => {
+        // console.log(data);
+        res.render('profile', { id, firstName, lastName, email, nmlsId, marketData: data});
+    }).catch(err => {
+        console.log('you have an error with finnhuB NEWS', err)
+    });
+};
+```
+
+## `17` Show all the leads
+Show all the leads from the database to /leads/ route  
+
+```js
+// show all the leads
+const allLeads = async (req,res) => {
+    try {
+        const rawData = await Lead.findAll({});
+        const leadData = rawData.map(u => u.toJSON());
+     res.render('leadsThree', {leadObj: leadData});
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+// index of leads
+const leadsIdx = async (req,res) => {
+    try {
+        const rawData = await Lead.findByPk(req.params.idx);
+        const leadData = rawData.toJSON();
+        
+        res.render('leads/show', { leadObj: leadData});
+    } catch (error) {
+        console.log(error)
+    }
+}
+// show one lead 
+const showLead = async (req,res) => {
+    try {
+        const rawData = await Lead.findAll({});
+        const leadData = rawData.map(u => u.toJSON());
+        // search for lead in DB by name then render show/lead
+        let searchValue = req.body.showLead;
+        // console.log(leadData);
+        console.log('search value',searchValue);
+        if(searchValue) {
+            for (let i = 0; i < leadData.length; i++) {
+                const lead = leadData[i];
+                if(searchValue.toLowerCase() === lead.firstName.toLowerCase()) 
+                {
+                    console.log('name of the lead',lead);
+                    res.redirect(`/profile/leads/${lead.id}`)
+                } 
+            }
+        } 
+    } catch (error) {
+        console.log('you have an error on ShowLead:',error)
+    }
+}  
+```
+
+## `18` Add New Lead
+
+```html
+<h2>Add New Lead</h2>
+              <a class="btn btn-primary"href="/profile">Back to Profile</a>
+              <form method="POST" action="/profile/leads" class="row g-2">
+                  <div class="col-md-6">
+                      <label for="firstName">First Name </label>
+                      <input id="firstName"  class="form-control" type="text" name="firstName" placeholder="First Name ">
+                  </div>
+                  
+                  <div  class="col-md-6">
+                      <label for="lastName">Last Name</label>
+                      <input id="lastName" class="form-control" type="text" name="lastName" placeholder="last Name ">
+                  </div>
+              
+                  <div class="col-md-4">
+                      <label for="phoneNumber">Phone Number</label>
+                      <input id="phoneNumber"  class="form-control" type="text" name="phoneNumber" placeholder="(111) 222-3333">
+                  </div>
+              
+                  <div class="col-md-6">
+                      <label for="address">Address</label>
+                      <input id="address"  class="form-control" type="text" name="address">
+                  </div>
+              
+                  <div class="col-md-2">
+                      <label for="state">State</label>
+                      <input id="state"  class="form-control" type="text" name="state" placeholder="CA">
+                  </div>
+              
+                  <div class="col-md-2">
+                      <label for="zipCode">Zip Code</label>
+                      <input id="zipCode" class="form-control" type="text" name="zipCode" placeholder="- - - - -">
+                  </div>
+              
+                  <div class="col-md-6">
+                      <label for="new-email">Email address</label>
+                      <input type="email" class="form-control" id="new-email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+                      <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+              
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>       
+```
+
+```js
+// new lead FORM
+const newLead = async (req,res) => {
+    res.render('leads/new');
+}
+// add new lead to database
+const addNewLead = async (req,res) => {
+    // grab data from the form
+    const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
+
+    console.log('new lead info',firstName, lastName, phoneNumber, address, state, zipCode, email);
+    // find user by id
+    try {
+        const fetchUser = await User.findByPk(req.user.id);
+        const newLead = await fetchUser.createLead({ 
+            firstName, 
+            lastName, 
+            phoneNumber, 
+            address, 
+            state, 
+            zipCode,
+            email 
+        });
+        console.log(newLead);
+        let lead = newLead.toJSON();
+        console.log(lead);
+        req.flash('success','You added a new lead');
+        res.redirect(`/profile/leads/${lead.id}`);
+    
+      } catch (error) {
+        console.log('*********ERRROORR');
+        console.log(error);
+        req.flash('error', 'There is an error. Please try again.');
+        res.redirect('/profile');
+      }
+
+}
+```
+
+## `18` Edit Lead
+Create the edit form for the lead and add ejs values for input fields.
+
+```html
+   <div>
+        <h2>Edit Lead </h2>
+        <a class="btn btn-primary"href="/profile/leads">back to leads</a>
+      </div>       
+      <form class="row g-3 mt-3 d-flex justify-content-center" method="POST" action="/profile/leads/<%=leadObj.id%>" >
+        <div class="col-md-4">
+          <label for="firstName" class="form-label"> First Name </label>
+          <input id="firstName"  class="form-control" type="text" name="firstName" value="<%= leadObj.firstName %> ">
+        </div>
+        <div class="col-md-2">
+          <label for="MiddleName" class="form-label"> M. I. </label>
+          <input id="MiddleName"  class="form-control" type="text" name="MiddleName" value=" ">
+        </div>
+        <div class="col-md-4">
+          <label for="lastName" class="form-label"> Last Name </label>
+          <input id="lastName"  class="form-control" type="text" name="lastName" value="<%= leadObj.lastName %> ">
+        </div>
+        <div class="row g-3 d-flex justify-content-center">
+          <div class="col-md-5">
+            <label for="new-email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="new-email" aria-describedby="emailHelp" name="email" value="<%= leadObj.email %> ">
+          </div>
+          <div class="col-md-4">
+            <label for="phoneNumber" class="form-label"> Phone Number</label>
+          <input id="phoneNumber"  class="form-control" type="text" name="phoneNumber" value="<%=leadObj.phoneNumber%> ">
+          </div>
+        </div>     
+        <div class="col-5">
+          <label for="address" class="form-label"> Address</label>
+          <input id="address"  class="form-control" type="text" name="address" value="<%= leadObj.address %> ">
+        </div>
+        <div class="col-md-3">
+          <label for="city" class="form-label">City</label>
+          <input type="text" class="form-control" id="city" name="city">
+        </div>
+      <div class="row g-3 d-flex justify-content-center">
+        <div class="col-md-3">
+          <label for="state" class="form-label">State</label>
+          <select id="state" class="form-select" name="state">
+            <option selected><%=leadObj.state%></option>
+            <option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option>       
+            <option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option>       
+            <option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option>
+            <option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option>
+            <option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option>
+            <option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option>
+            <option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option><option value="OK">OK</option>
+            <option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option>
+            <option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option>
+            <option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="inputZip" class="form-label">Zip Code</label>
+          <input type="text" class="form-control" id="inputZip" name="zipCode" value="<%= leadObj.zipCode%>">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary form-control">Submit</button>
+        </div>
+      </div>  
+      </form>
+```
+
+Add logic to connect to the database and update the new data.
+
+```js
+// edit lead FORM db
+const editLead = async (req,res) => {
+    try {
+        const leadIdx = req.params.idx;
+        const rawData = await Lead.findByPk(leadIdx);
+        const leadData = rawData.toJSON();
+
+        res.render('leads/edit', {leadObj: leadData});
+    } catch (error) {
+        console.log(error)
+    }  
+}
+// add edited lead to db
+const addEditedLead = async (req,res) => {
+    const { firstName, lastName, phoneNumber, address, state, zipCode, email } = req.body;
+    const id = req.params.idx;
+    console.log("THE PHONE NUMBER:", phoneNumber);
+    try {
+        const numberOfRowsUpdate = await Lead.update({ firstName, lastName, phoneNumber, address, state, zipCode },{
+            where: {id : id}
+        });
+        res.redirect(`/profile/leads/${id}`);
+        console.log('you have successfully updated a lead');
+    } catch (error) {
+        console.log('you had an error updating a lead: --->', error)
+    }
+}
+```
+
+## `18` Delete/Deactivate Lead
+
+```js
+// delete or deactivate from db
+const deactivateLead = async (req,res) => {
+    const leadId = req.params.idx
+    console.log(leadId);
+
+    try {
+        let deleteUserData = await Lead.destroy({
+            where: {id: leadId}
+        });  
+        res.redirect('/profile/leads');
+    //   returns a number of how many users where deleted
+        console.log(deleteUserData)
+    } catch (error) {
+        console.log(error);
+    }
+}
+```
+
+## `19` Start App and Debug
 
 `1` Start up server and test app
 

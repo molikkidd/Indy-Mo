@@ -68,7 +68,6 @@ module.exports = (sequelize, DataTypes) => {
   // before you create the user hash the password
   // and put it in the database
 User.addHook('beforeCreate', (pendingUser) => {
-  console.log('the pending user:',pendingUser);
   // bcrypt will hash the password
   let hash = bcrypt.hashSync(pendingUser.password, 12); //hashes 12 times
   pendingUser.password = hash; //will go into the DB
@@ -89,5 +88,4 @@ User.prototype.toJSON = function() {
   return userData;
 }
   return User; // add functions above 
-
 };
