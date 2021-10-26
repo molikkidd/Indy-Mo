@@ -1178,6 +1178,8 @@ Add the messenger to the profile.ejs
   </div>
 ```
 
+<img width="374" alt="Screen Shot 2021-10-26 at 4 44 08 PM" src="https://user-images.githubusercontent.com/28605078/138976695-7220d6c3-eac6-4228-b95f-f038a1b49a1a.png">
+
 ## `21` Create WebSocket Server
 
 ```js
@@ -1210,9 +1212,8 @@ server.listen(port, function() {
 module.exports = WebSocket;
 ```
 
-## `20` Delete/Deactivate Lead
+## `22` Delete/Deactivate Lead
 
-## `20` Delete/Deactivate Lead
 
 ```js
 // delete or deactivate from db
@@ -1231,7 +1232,7 @@ const deactivateLead = async (req,res) => {
 }
 ```
 
-## `21` Start App and Debug
+## `23` Start App and Debug
 
 `1` Start up server and test app
 
