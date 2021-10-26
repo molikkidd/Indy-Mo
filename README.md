@@ -78,7 +78,7 @@ npm install
 `3` We need to install some packages that will be used for `authentication`. Those are the following packages:
 
 ```text
-npm install bcrypt connect-flash passport passport-local express-session method-override
+npm install bcryptjs connect-flash passport passport-local express-session method-override
 and 
 npm install axios dotenv express-ejs-layout express ejs pg sequelize sequelize-cli ws
 
@@ -86,8 +86,8 @@ npm install axios dotenv express-ejs-layout express ejs pg sequelize sequelize-c
 
 - [axios](https://github.com/axios/axios):
   Promise based HTTP client for the browser and node.js 
--  [bcrypt](https://www.npmjs.com/package/bcrypt): 
-  A library to help you hash passwords. ([wikipedia](https://en.wikipedia.org/wiki/Bcrypt)) 
+-  [bcryptjs](https://www.npmjs.com/package/bcryptjs): 
+  A library to help you hash passwords. ([wikipedia](https://en.wikipedia.org/wiki/Bcryptjs)) 
   Blowfish has a 64-bit block size and a variable key length from 32 bits up to 448 bits.
 - [connect-flash](https://github.com/jaredhanson/connect-flash): 
   The flash is an area of the session used for storing messages that will be used to to display to the user. Flash is typically used with redirects.
@@ -321,9 +321,9 @@ git commit -m "add: User model and validations"
 
 ## `5` Add Methods to `User` Model to Hash Password, Etc.
 
-`1` Import `bcrypt` at the top of `User` model
+`1` Import `bcryptjs` at the top of `User` model
 ```js
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 ```
 
 `2` Create a hook `beforeCreate` to hash **password** inside `User` model before it enters the database
@@ -1100,7 +1100,117 @@ const addEditedLead = async (req,res) => {
     }
 }
 ```
+
 <img width="1108" alt="Screen Shot 2021-10-26 at 3 07 48 PM" src="https://user-images.githubusercontent.com/28605078/138971730-95aed3cf-a2bb-4395-9e10-517d7a6a53ad.png">
+
+## `20` Create WebSocket Messenger
+Create an websocket HTML Messenger 
+
+```html
+<h1>Real Time Messaging</h1>
+<pre id="messages" style="height: 400px; overflow: scroll; background-color: cadetblue;"></pre>
+<input type="text" id="messageBox" placeholder="Type your message right ch'ere" 
+style="display:block; width: 100%; margin-bottom: 10px; padding: 10px;"/>
+<button id="send" title="Send Message" style="width: 100%; height: 30px;"> SEND MESSAGE</button>
+<!-- 
+install ws. on server.js then add logic
+ to the profile page for an instant messenger -->
+<script>
+    (function() {
+        const sendBtn = document.querySelector('#send');
+        const messages = document.querySelector('#messages');
+        const messageBox = document.querySelector('#messageBox');
+        // console.log('this is the send button',sendBtn)
+        let ws;
+
+      function showMessages(message) {
+        messages.textContent += `\n\n${message}`;
+        messages.scrollTop = messages.scrollHeight;
+        messageBox.value = '';
+    }
+
+    function init() {
+        if(ws) {
+            ws.onerror = ws.onopen = ws.onclose = null;
+            ws.close();
+        }
+
+        ws = new WebSocket('ws://localhost:8001');
+        ws.onopen = () => {
+            console.log('connection opened!');
+        }
+        ws.onmessage = ({data}) => showMessages(data);
+        ws.onclose = function() {
+        ws = null;
+        }   
+     }
+
+     sendBtn.onclick = function() {
+         if(!ws) {
+             showMessages("No web socket CONNECTION :");
+             return;
+         }
+         ws.send(messageBox.value);
+         showMessages(messageBox.value);
+     }
+
+     init();
+    })();
+ 
+</script>
+
+<script src="socketServer.js"></script>
+```
+
+Add the messenger to the profile.ejs
+
+```ejs
+      <div class="col-md-4 w-100 mt-4">
+          <div id="moMessenger">
+            <!-- message box -->
+            <h5>M.O. Messenger</h5>
+          <pre id="messages"></pre>
+          <input  class="input-group-text" type="text" id="messageBox" placeholder="Type Message ch'ere"/>
+          <button id="send" class="btn btn-primary" title="Send Message" > SEND MESSAGE</button>
+          
+          </div>
+        </div>
+  </div>
+```
+
+## `21` Create WebSocket Server
+
+```js
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+
+const port = 8001;
+const server = http.createServer(express);
+const wss = new WebSocket.Server({ server })
+
+wss.on('connection', function connection(ws) {
+    // once connected to the websocket 
+    ws.on('message', function incoming(data, isBinary) {
+        // filter through the clients and check the status of their connection
+        wss.clients.forEach(function each(client) {
+            // if their websocket connection is open 
+            if(client !== ws && client.readyState === WebSocket.OPEN) {
+                // then I want to send them some data
+                console.log({binary: isBinary})
+                client.send(data, {binary: isBinary});
+            } 
+        })
+    })
+})
+
+server.listen(port, function() {
+    console.log('The websocket server is up and running at port:', port)
+})
+module.exports = WebSocket;
+```
+
+## `20` Delete/Deactivate Lead
 
 ## `20` Delete/Deactivate Lead
 
