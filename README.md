@@ -580,6 +580,7 @@ module.exports = isLoggedIn;
 const isLoggedIn = require('./middleware/isLoggedIn');
 ```
 
+
 `6` Make *commit* message
 ```text
 git add .
@@ -612,7 +613,7 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: 'Either email or password is incorrect' 
 }));
 ```
-
+<img width="580" alt="Screen Shot 2021-10-26 at 3 39 04 PM" src="https://user-images.githubusercontent.com/28605078/138971172-4448d742-e064-4229-947d-60b315cf4952.png">
 `2` Run **`mocha`** to see how many tests passed
 
 `3` Make *commit* message
@@ -679,6 +680,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 ```
+<img width="736" alt="Screen Shot 2021-10-26 at 3 42 39 PM" src="https://user-images.githubusercontent.com/28605078/138971331-e15d1621-84d0-4b3f-8072-1ba61a8c0a41.png">
 
 `3` Run **`mocha`** to see how many tests passed
 
@@ -822,6 +824,10 @@ app.get('/profile', isLoggedIn, (req, res) => {
     </div>
 ```
 
+<img width="1085" alt="Screen Shot 2021-10-26 at 3 53 37 PM" src="https://user-images.githubusercontent.com/28605078/138973277-e673d7e0-3ef6-4e9b-8d99-ba8c384770df.png">
+
+
+
 `2` Run **`mocha`** to see how many tests passed
 
 `3` Make *commit* message
@@ -855,6 +861,7 @@ const profile =  (req,res) => {
 };
 ```
 
+
 ## `17` Show all the leads
 Show all the leads from the database to /leads/ route  
 
@@ -881,6 +888,10 @@ const leadsIdx = async (req,res) => {
         console.log(error)
     }
 }
+```
+<img width="1108" alt="Screen Shot 2021-10-26 at 3 06 32 PM" src="https://user-images.githubusercontent.com/28605078/138971544-73e0d00d-65dd-46ca-af8b-9125ca3a17ed.png">
+
+```js
 // show one lead 
 const showLead = async (req,res) => {
     try {
@@ -903,6 +914,7 @@ const showLead = async (req,res) => {
     }
 }  
 ```
+<img width="1110" alt="Screen Shot 2021-10-26 at 3 07 27 PM" src="https://user-images.githubusercontent.com/28605078/138971643-ccc7ef17-0621-4705-81d5-e91975e1f09c.png">
 
 ## `18` Add New Lead
 
@@ -986,6 +998,7 @@ const addNewLead = async (req,res) => {
 
 }
 ```
+<img width="1111" alt="Screen Shot 2021-10-26 at 3 07 02 PM" src="https://user-images.githubusercontent.com/28605078/138971694-e1cbaacd-f5f7-42aa-b80a-375a4167aef9.png">
 
 ## `19` Edit Lead
 Create the edit form for the lead and add ejs values for input fields.
@@ -1031,15 +1044,15 @@ Create the edit form for the lead and add ejs values for input fields.
           <label for="state" class="form-label">State</label>
           <select id="state" class="form-select" name="state">
             <option selected><%=leadObj.state%></option>
-            <option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option>       
-            <option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option>       
-            <option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option>
-            <option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option>
-            <option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option>
-            <option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option>
-            <option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option><option value="OK">OK</option>
-            <option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option>
-            <option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option>
+            <option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option>                 <option value="CA">CA</option>       
+            <option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="FL">FL</option>                 <option value="GA">GA</option>       
+            <option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option>                 <option value="KS">KS</option>
+            <option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option>                 <option value="MA">MA</option>
+            <option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option>                 <option value="MT">MT</option>
+            <option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option>                 <option value="NM">NM</option>
+            <option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option>                 <option value="OK">OK</option>
+            <option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option>                 <option value="SD">SD</option>
+            <option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option>                 <option value="VA">VA</option>
             <option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option>
           </select>
         </div>
@@ -1087,6 +1100,7 @@ const addEditedLead = async (req,res) => {
     }
 }
 ```
+<img width="1108" alt="Screen Shot 2021-10-26 at 3 07 48 PM" src="https://user-images.githubusercontent.com/28605078/138971730-95aed3cf-a2bb-4395-9e10-517d7a6a53ad.png">
 
 ## `20` Delete/Deactivate Lead
 
