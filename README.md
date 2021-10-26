@@ -1213,10 +1213,6 @@ module.exports = WebSocket;
 ```
 
 ## `22` Delete/Deactivate Lead
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cc21eb1b1d0f5fe6389f7e2071377ff9a05e69a
 
 ```js
 // delete or deactivate from db
